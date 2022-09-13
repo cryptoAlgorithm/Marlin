@@ -2355,7 +2355,7 @@
 // For debug-echo: 128 bytes for the optimal speed.
 // Other output doesn't need to be that speedy.
 // :[0, 2, 4, 8, 16, 32, 64, 128, 256]
-#define TX_BUFFER_SIZE 0
+#define TX_BUFFER_SIZE 128
 
 // Host Receive Buffer Size
 // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
@@ -3189,28 +3189,28 @@
    */
   #define HYBRID_THRESHOLD
 
-  #define X_HYBRID_THRESHOLD      40  // [mm/s]
-  #define X2_HYBRID_THRESHOLD     40
-  #define Y_HYBRID_THRESHOLD      40
-  #define Y2_HYBRID_THRESHOLD     40
-  #define Z_HYBRID_THRESHOLD       3
-  #define Z2_HYBRID_THRESHOLD      3
-  #define Z3_HYBRID_THRESHOLD      3
-  #define Z4_HYBRID_THRESHOLD      3
-  #define I_HYBRID_THRESHOLD       3  // [linear=mm/s, rotational=°/s]
-  #define J_HYBRID_THRESHOLD       3  // [linear=mm/s, rotational=°/s]
-  #define K_HYBRID_THRESHOLD       3  // [linear=mm/s, rotational=°/s]
-  #define U_HYBRID_THRESHOLD       3  // [mm/s]
-  #define V_HYBRID_THRESHOLD       3
-  #define W_HYBRID_THRESHOLD       3
-  #define E0_HYBRID_THRESHOLD     30
-  #define E1_HYBRID_THRESHOLD     30
-  #define E2_HYBRID_THRESHOLD     30
-  #define E3_HYBRID_THRESHOLD     30
-  #define E4_HYBRID_THRESHOLD     30
-  #define E5_HYBRID_THRESHOLD     30
-  #define E6_HYBRID_THRESHOLD     30
-  #define E7_HYBRID_THRESHOLD     30
+  #define X_HYBRID_THRESHOLD     200  // [mm/s]
+  // #define X2_HYBRID_THRESHOLD     40
+  #define Y_HYBRID_THRESHOLD       X_HYBRID_THRESHOLD
+  // #define Y2_HYBRID_THRESHOLD     40
+  // #define Z_HYBRID_THRESHOLD       3
+  // #define Z2_HYBRID_THRESHOLD      3
+  // #define Z3_HYBRID_THRESHOLD      3
+  // #define Z4_HYBRID_THRESHOLD      3
+  // #define I_HYBRID_THRESHOLD       3  // [linear=mm/s, rotational=°/s]
+  // #define J_HYBRID_THRESHOLD       3  // [linear=mm/s, rotational=°/s]
+  // #define K_HYBRID_THRESHOLD       3  // [linear=mm/s, rotational=°/s]
+  // #define U_HYBRID_THRESHOLD       3  // [mm/s]
+  // #define V_HYBRID_THRESHOLD       3
+  // #define W_HYBRID_THRESHOLD       3
+  // #define E0_HYBRID_THRESHOLD     30
+  // #define E1_HYBRID_THRESHOLD     30
+  // #define E2_HYBRID_THRESHOLD     30
+  // #define E3_HYBRID_THRESHOLD     30
+  // #define E4_HYBRID_THRESHOLD     30
+  // #define E5_HYBRID_THRESHOLD     30
+  // #define E6_HYBRID_THRESHOLD     30
+  // #define E7_HYBRID_THRESHOLD     30
 
   /**
    * Use StallGuard to home / probe X, Y, Z.
@@ -4150,7 +4150,7 @@
  * WiFi Support (Espressif ESP32 WiFi)
  */
 //#define WIFISUPPORT         // Marlin embedded WiFi management
-#define ESP3D_WIFISUPPORT   // ESP3D Library WiFi management (https://github.com/luc-github/ESP3DLib)
+//#define ESP3D_WIFISUPPORT   // ESP3D Library WiFi management (https://github.com/luc-github/ESP3DLib)
 
 #if EITHER(WIFISUPPORT, ESP3D_WIFISUPPORT)
   #define WEBSUPPORT          // Start a webserver (which may include auto-discovery)
