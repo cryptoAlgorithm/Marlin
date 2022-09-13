@@ -3230,10 +3230,10 @@
 
   #if AXIS_HAS_COOLSTEP(X)
     #define X_COOLSTEP_SPEED_THRESHOLD        5
-    #define X_COOLSTEP_LOWER_LOAD_THRESHOLD   0
-    #define X_COOLSTEP_UPPER_LOAD_THRESHOLD   0
+    #define X_COOLSTEP_LOWER_LOAD_THRESHOLD   4
+    #define X_COOLSTEP_UPPER_LOAD_THRESHOLD   3
     #define X_COOLSTEP_SEUP                   0
-    #define X_COOLSTEP_SEDN                   0
+    #define X_COOLSTEP_SEDN                   1
     #define X_COOLSTEP_SEIMIN                 0
   #endif
 
@@ -3247,12 +3247,12 @@
   #endif
 
   #if AXIS_HAS_COOLSTEP(Y)
-    #define Y_COOLSTEP_SPEED_THRESHOLD        5
-    #define Y_COOLSTEP_LOWER_LOAD_THRESHOLD   0
-    #define Y_COOLSTEP_UPPER_LOAD_THRESHOLD   0
-    #define Y_COOLSTEP_SEUP                   0
-    #define Y_COOLSTEP_SEDN                   0
-    #define Y_COOLSTEP_SEIMIN                 0
+    #define Y_COOLSTEP_SPEED_THRESHOLD        X_COOLSTEP_SPEED_THRESHOLD
+    #define Y_COOLSTEP_LOWER_LOAD_THRESHOLD   X_COOLSTEP_LOWER_LOAD_THRESHOLD
+    #define Y_COOLSTEP_UPPER_LOAD_THRESHOLD   X_COOLSTEP_UPPER_LOAD_THRESHOLD
+    #define Y_COOLSTEP_SEUP                   X_COOLSTEP_SEUP
+    #define Y_COOLSTEP_SEDN                   X_COOLSTEP_SEDN
+    #define Y_COOLSTEP_SEIMIN                 X_COOLSTEP_SEIMIN
   #endif
 
   #if AXIS_HAS_COOLSTEP(Y2)
