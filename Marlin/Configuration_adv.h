@@ -2805,7 +2805,7 @@
 
   #if AXIS_IS_TMC(X)
     #define X_CURRENT       600        // (mA) RMS current. Multiply by 1.414 for peak current.
-    #define X_CURRENT_HOME  200        // (mA) RMS current for sensorless homing
+    #define X_CURRENT_HOME  150        // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     16        // 0..256
     #define X_RSENSE          0.11
     #define X_CHAIN_POS      -1        // -1..0: Not chained. 1: MCU MOSI connected. 2: Next in chain, ...
@@ -3230,9 +3230,9 @@
 
   #if AXIS_HAS_COOLSTEP(X)
     #define X_COOLSTEP_SPEED_THRESHOLD        5
-    #define X_COOLSTEP_LOWER_LOAD_THRESHOLD   4
+    #define X_COOLSTEP_LOWER_LOAD_THRESHOLD   5
     #define X_COOLSTEP_UPPER_LOAD_THRESHOLD   3
-    #define X_COOLSTEP_SEUP                   0
+    #define X_COOLSTEP_SEUP                   3
     #define X_COOLSTEP_SEDN                   1
     #define X_COOLSTEP_SEIMIN                 0
   #endif
@@ -3402,7 +3402,7 @@
 
   #if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
     // TMC2209: 0...255. TMC2130: -64...63
-    #define X_STALL_SENSITIVITY    5
+    #define X_STALL_SENSITIVITY   85
     //#define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
     #define Y_STALL_SENSITIVITY    X_STALL_SENSITIVITY // Same value since coreXY
     //#define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY

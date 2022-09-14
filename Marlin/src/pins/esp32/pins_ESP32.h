@@ -43,8 +43,9 @@
 //
 // Limit Switches
 //
-#define X_MIN_PIN                             15
-#define Y_MIN_PIN                              2
+// CoreXY, both driver's DIAG pins connected to one pin
+#define X_MIN_PIN                             15 
+#define Y_MIN_PIN                             21
 #define Z_MIN_PIN                             -1
 
 //
