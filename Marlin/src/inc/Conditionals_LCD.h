@@ -126,7 +126,7 @@
   #define IS_U8GLIB_SSD1306
   #define IS_ULTIPANEL 1
 
-#elif ENABLED(RA_CONTROL_PANEL)
+#elif ENABLED(RA_CONTROL_PANEL) || ENABLED(LCM1602)
 
   #define LCD_I2C_TYPE_PCA8574
   #define LCD_I2C_ADDRESS 0x27   // I2C Address of the port expander

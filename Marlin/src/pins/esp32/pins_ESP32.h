@@ -22,7 +22,7 @@
 #pragma once
 
 /**
- * Espressif ESP32 (Tensilica Xtensa LX6) pin assignments
+ * Espressif ESP32 (Tensilica Xtensa LX6) pin xassignments
  */
 
 #include "env_validate.h"
@@ -39,6 +39,15 @@
   #define I2S_BCK                             26
   #define I2S_DATA                            27
 #endif
+
+//
+// I2C pins to be used for LCD adapter
+//
+// The ESP32 allows these to be set to any output-capable pin,
+// so we have the freedom to connect the LCD adapter to any
+// pin we like.
+#define ESP_I2C_SDA 26
+#define ESP_I2C_SCL 27
 
 //
 // Limit Switches
@@ -84,8 +93,11 @@
 // Heaters / Fans
 //
 #define HEATER_0_PIN                          -1
-#define FAN_PIN                              150
+#define FAN_PIN                               14
 //#define HEATER_BED_PIN                      -1
 
 // SPI
 #define SDSS                                   5
+
+// Servo
+#define SERVO0_PIN 13
