@@ -2445,11 +2445,15 @@
 #define DISPLAY_CHARSET_HD44780 JAPANESE
 
 /**
- * Info Screen Style (0:Classic, 1:Průša)
+ * Info Screen Style (0:Classic, 1:Průša, 2:Alt Classic)
  *
- * :[0:'Classic', 1:'Průša']
+ * Style 2 is currently an experimental style and will only work for 
+ * 16x2 character LCD displays. It's designed to maximise the amount 
+ * of important info displayed on smaller 16x2 displays.
+ * 
+ * :[0:'Classic', 1:'Průša', 2:'Alt Classic']
  */
-#define LCD_INFO_SCREEN_STYLE 0
+#define LCD_INFO_SCREEN_STYLE 2
 
 /**
  * SD CARD

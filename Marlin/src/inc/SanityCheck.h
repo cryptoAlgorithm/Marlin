@@ -882,12 +882,16 @@ static_assert(Y_MAX_LENGTH >= Y_BED_SIZE, "Movement bounds (Y_MIN_POS, Y_MAX_POS
 /**
  * LCD Info Screen Style
  */
-#if LCD_INFO_SCREEN_STYLE > 0
+#if LCD_INFO_SCREEN_STYLE == 1 // Průša
   #if HAS_MARLINUI_U8GLIB || LCD_WIDTH < 20 || LCD_HEIGHT < 4
     #error "Alternative LCD_INFO_SCREEN_STYLE requires 20x4 Character LCD."
-  #elif LCD_INFO_SCREEN_STYLE > 1
-    #error "LCD_INFO_SCREEN_STYLE only has options 0 and 1 at this time."
   #endif
+#elif LCD_INFO_SCREEN_STYLE == 2 // Alt Classic 
+  #if HAS_MARLINUI_U8GLIB || LCD_WIDTH > 16 || LCD_HEIGHT > 2
+    #error "Alternate classic LCD_INFO_SCREEN_STYLE only supports 16x2 Character LCD."
+  #endif
+#elif LCD_INFO_SCREEN_STYLE > 2
+  #error "LCD_INFO_SCREEN_STYLE only has options 0, 1 and 2 at this time."
 #endif
 
 /**

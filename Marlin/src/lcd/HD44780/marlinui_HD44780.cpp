@@ -401,6 +401,13 @@ bool MarlinUI::detected() {
 
 void MarlinUI::clear_lcd() { lcd.clear(); }
 
+#if HAS_LCD_BRIGHTNESS
+  void MarlinUI::_set_brightness() {
+    if (backlight) lcd.backlight();
+    else lcd.noBacklight();
+  }
+#endif
+
 #if ENABLED(SHOW_BOOTSCREEN)
 
   void lcd_erase_line(const lcd_uint_t line) {
@@ -1042,6 +1049,20 @@ void MarlinUI::draw_status_screen() {
       (void)draw_elapsed_or_remaining_time(LCD_WIDTH - 4, blink);
 
     #endif
+
+  #elif LCD_INFO_SCREEN_STYLE == 2 // Alternate classic style
+
+    // ========== Line 1 ==========
+
+    // Current XY position
+    const xy_pos_t lpos = current_position.asLogical();
+    _draw_axis_value(X_AXIS, ftostr4sign(lpos.x), blink);
+    lcd_put_lchar(' ');
+    _draw_axis_value(Y_AXIS, ftostr4sign(lpos.y), blink);
+
+    // Z position
+    lcd_put_lchar(' ');
+    _draw_axis_value(Z_AXIS, i16tostr3rj(LOGICAL_Z_POSITION(current_position.z)), blink);
 
   #endif // LCD_INFO_SCREEN_STYLE 1
 
