@@ -46,13 +46,12 @@
 // The ESP32 allows these to be set to any output-capable pin,
 // so we have the freedom to connect the LCD adapter to any
 // pin we like.
-#define ESP_I2C_SDA 26
-#define ESP_I2C_SCL 27
+#define ESP_I2C_SDA                           26
+#define ESP_I2C_SCL                           27
 
 //
 // Limit Switches
 //
-// CoreXY, both driver's DIAG pins connected to one pin
 #define X_MIN_PIN                             15 
 #define Y_MIN_PIN                             21
 #define Z_MIN_PIN                             -1
@@ -70,9 +69,9 @@
 #define Y_ENABLE_PIN                          -1
 //#define Y_CS_PIN                            13
 
-#define Z_STEP_PIN                           134
-#define Z_DIR_PIN                            135
-#define Z_ENABLE_PIN                         136
+#define Z_STEP_PIN                             2
+#define Z_DIR_PIN                             25
+#define Z_ENABLE_PIN                          -1
 //#define Z_CS_PIN                             5  // SS_PIN
 
 //#define E0_STEP_PIN                        137
@@ -82,6 +81,7 @@
 
 #define X_HARDWARE_SERIAL Serial2
 #define Y_HARDWARE_SERIAL X_HARDWARE_SERIAL
+#define Z_HARDWARE_SERIAL X_HARDWARE_SERIAL
 
 //
 // Temperature Sensors
@@ -97,7 +97,16 @@
 //#define HEATER_BED_PIN                      -1
 
 // SPI
-#define SDSS                                   5
+//#define SDSS                                -1
 
 // Servo
 #define SERVO0_PIN 13
+
+//
+// LCD / Controller
+//
+#if (HAS_WIRED_LCD && IS_ULTIPANEL) || TOUCH_UI_ULTIPANEL
+
+  #define BTN_ENC                             12
+
+#endif

@@ -182,7 +182,12 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
   millis_t MarlinUI::backlight_off_ms = 0;
   void MarlinUI::refresh_backlight_timeout() {
     backlight_off_ms = backlight_timeout_minutes ? millis() + backlight_timeout_minutes * 60UL * 1000UL : 0;
-    WRITE(LCD_BACKLIGHT_PIN, HIGH);
+    #if ENABLED(LCD_I2C_TYPE_PCA8574)
+      ui.backlight = true;
+      ui._set_brightness();
+    #else
+      WRITE(LCD_BACKLIGHT_PIN, HIGH);
+    #endif
   }
 
 #elif HAS_DISPLAY_SLEEP
@@ -1174,8 +1179,13 @@ void MarlinUI::init() {
       #endif
 
       #if LCD_BACKLIGHT_TIMEOUT_MINS
-        if (backlight_off_ms && ELAPSED(ms, backlight_off_ms)) {
-          WRITE(LCD_BACKLIGHT_PIN, LOW); // Backlight off
+        if (backlight_off_ms && ELAPSED(ms, backlight_off_ms)) { // Backlight off
+          #if ENABLED(LCD_I2C_TYPE_PCA8574)
+            ui.backlight = false;
+            ui._set_brightness();
+          #else
+            WRITE(LCD_BACKLIGHT_PIN, LOW); 
+          #endif
           backlight_off_ms = 0;
         }
       #elif HAS_DISPLAY_SLEEP

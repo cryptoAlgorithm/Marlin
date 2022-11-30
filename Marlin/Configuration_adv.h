@@ -1326,7 +1326,7 @@
 //
 // LCD Backlight Timeout
 //
-//#define LCD_BACKLIGHT_TIMEOUT_MINS 1  // (minutes) Timeout before turning off the backlight
+#define LCD_BACKLIGHT_TIMEOUT_MINS 1  // (minutes) Timeout before turning off the backlight
 
 #if HAS_BED_PROBE && EITHER(HAS_MARLINUI_MENU, HAS_TFT_LVGL_UI)
   //#define PROBE_OFFSET_WIZARD       // Add a Probe Z Offset calibration option to the LCD menu
@@ -3070,7 +3070,7 @@
    */
   #define  X_SLAVE_ADDRESS 0
   #define  Y_SLAVE_ADDRESS 1
-  //#define  Z_SLAVE_ADDRESS 0
+  #define  Z_SLAVE_ADDRESS 2
   //#define X2_SLAVE_ADDRESS 0
   //#define Y2_SLAVE_ADDRESS 0
   //#define Z2_SLAVE_ADDRESS 0
@@ -3193,7 +3193,7 @@
   // #define X2_HYBRID_THRESHOLD     40
   #define Y_HYBRID_THRESHOLD       X_HYBRID_THRESHOLD
   // #define Y2_HYBRID_THRESHOLD     40
-  // #define Z_HYBRID_THRESHOLD       3
+  #define Z_HYBRID_THRESHOLD       X_HYBRID_THRESHOLD // This is the same at the moment
   // #define Z2_HYBRID_THRESHOLD      3
   // #define Z3_HYBRID_THRESHOLD      3
   // #define Z4_HYBRID_THRESHOLD      3
@@ -3265,12 +3265,12 @@
   #endif
 
   #if AXIS_HAS_COOLSTEP(Z)
-    #define Z_COOLSTEP_SPEED_THRESHOLD        5
-    #define Z_COOLSTEP_LOWER_LOAD_THRESHOLD   0
-    #define Z_COOLSTEP_UPPER_LOAD_THRESHOLD   0
-    #define Z_COOLSTEP_SEUP                   0
-    #define Z_COOLSTEP_SEDN                   0
-    #define Z_COOLSTEP_SEIMIN                 0
+    #define Z_COOLSTEP_SPEED_THRESHOLD        X_COOLSTEP_SPEED_THRESHOLD
+    #define Z_COOLSTEP_LOWER_LOAD_THRESHOLD   X_COOLSTEP_LOWER_LOAD_THRESHOLD
+    #define Z_COOLSTEP_UPPER_LOAD_THRESHOLD   X_COOLSTEP_UPPER_LOAD_THRESHOLD
+    #define Z_COOLSTEP_SEUP                   X_COOLSTEP_SEUP
+    #define Z_COOLSTEP_SEDN                   X_COOLSTEP_SEDN
+    #define Z_COOLSTEP_SEIMIN                 X_COOLSTEP_SEIMIN
   #endif
 
   #if AXIS_HAS_COOLSTEP(Z2)
@@ -3406,7 +3406,7 @@
     //#define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
     #define Y_STALL_SENSITIVITY    X_STALL_SENSITIVITY // Same value since coreXY
     //#define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
-    //#define Z_STALL_SENSITIVITY  8
+    #define Z_STALL_SENSITIVITY  X_STALL_SENSITIVITY
     //#define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     //#define Z3_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     //#define Z4_STALL_SENSITIVITY Z_STALL_SENSITIVITY
