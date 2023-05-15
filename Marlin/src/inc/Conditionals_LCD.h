@@ -133,6 +133,12 @@
   #define IS_ULTIPANEL 1
   #define HAS_LCD_BRIGHTNESS 1
 
+#elif ENABLED(DFROBOT_1602_RGB)
+
+  #define LCD_I2C_TYPE_DFROBOT // Commands are slightly different from LCD_I2C_TYPE_PCA8574
+  #define IS_ULTIPANEL 1
+  #define HAS_LCD_BRIGHTNESS 1
+
 #elif ENABLED(REPRAPWORLD_GRAPHICAL_LCD)
 
   #define DOGLCD

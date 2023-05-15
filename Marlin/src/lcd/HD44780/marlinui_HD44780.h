@@ -67,6 +67,11 @@
   #include <LiquidCrystal_I2C.h>
   #define LCD_CLASS LiquidCrystal_I2C
 
+#elif ENABLED(LCD_I2C_TYPE_DFROBOT)
+  
+  #include "DFRobot_LCD.h"
+  #define LCD_CLASS DFRobot_LCD
+
 #elif ENABLED(SR_LCD_2W_NL)
 
   // 2 wire Non-latching LCD SR from:

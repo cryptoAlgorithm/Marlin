@@ -171,4 +171,4 @@ __pycache__
 *_log.csv
 
 # PlatformIO Serial Monitor logs
-platformio-device-monitor-*.log
+*device-monitor-*.log

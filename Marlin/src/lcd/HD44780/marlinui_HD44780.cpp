@@ -74,6 +74,10 @@
 
   LCD_CLASS lcd(LCD_I2C_ADDRESS, LCD_WIDTH, LCD_HEIGHT, ESP_I2C_SDA, ESP_I2C_SCL);
 
+#elif ENABLED(LCD_I2C_TYPE_DFROBOT)
+
+  LCD_CLASS lcd(LCD_WIDTH, LCD_HEIGHT, ESP_I2C_SDA, ESP_I2C_SCL);
+
 #elif ENABLED(SR_LCD_2W_NL)
 
   // 2 wire Non-latching LCD SR from:
@@ -367,6 +371,10 @@ void MarlinUI::init_lcd() {
     lcd.init();
     lcd.backlight();
 
+  #elif ENABLED(LCD_I2C_TYPE_DFROBOT)
+    lcd.init();
+    _set_brightness(); // Make sure backlight brightness is set to what we expect initially
+
   #else
     lcd.begin(LCD_WIDTH, LCD_HEIGHT);
   #endif
@@ -403,8 +411,11 @@ void MarlinUI::clear_lcd() { lcd.clear(); }
 
 #if HAS_LCD_BRIGHTNESS
   void MarlinUI::_set_brightness() {
-    if (backlight) lcd.backlight();
-    else lcd.noBacklight();
+    #if ENABLED(LCD_I2C_TYPE_DFROBOT)
+      lcd.setRGB(backlight ? brightness : 0, backlight ? brightness : 0, backlight ? brightness : 0);
+    #else
+      backlight ? lcd.backlight() : lcd.noBacklight();
+    #endif
   }
 #endif
 

@@ -22,7 +22,7 @@
 #pragma once
 
 /**
- * Espressif ESP32 (Tensilica Xtensa LX6) pin xassignments
+ * Espressif ESP32 (Tensilica Xtensa LX6) pin assignments
  */
 
 #include "env_validate.h"
@@ -46,8 +46,8 @@
 // The ESP32 allows these to be set to any output-capable pin,
 // so we have the freedom to connect the LCD adapter to any
 // pin we like.
-#define ESP_I2C_SDA                           26
-#define ESP_I2C_SCL                           27
+#define ESP_I2C_SDA                           27
+#define ESP_I2C_SCL                           26
 
 //
 // Limit Switches

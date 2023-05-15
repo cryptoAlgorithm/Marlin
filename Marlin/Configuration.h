@@ -2669,7 +2669,16 @@
 //
 // Generic LCM1602 LCD adapter
 //
-#define LCM1602
+//#define LCM1602
+
+// 
+// DFRobot 1602 LCD w/RGB backlight
+// 
+// Both display and backlight commands are sent thru I2C to different addresses.
+//
+#define DFROBOT_1602_RGB
+
+#define LCD_BRIGHTNESS_MIN 0 // Allow fully dimming backlight
 
 // Configure width and height of LCD
 #define LCD_WIDTH 16
