@@ -1295,6 +1295,8 @@ void setup() {
   // UI must be initialized before EEPROM
   // (because EEPROM code calls the UI).
 
+  SERIAL_ECHO_MSG("UI Init");
+
   SETUP_RUN(ui.init());
 
   #if PIN_EXISTS(SAFE_POWER)

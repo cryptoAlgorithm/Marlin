@@ -94,13 +94,13 @@
 //
 #define HEATER_0_PIN                          -1
 #define FAN0_PIN                              14
-//#define HEATER_BED_PIN                         4
+//#define HEATER_BED_PIN                       4
 
 // SPI
 //#define SDSS                                -1
 
 // Servo
-#define SERVO0_PIN 13
+#define SERVO0_PIN                            13
 
 //
 // LCD / Controller
