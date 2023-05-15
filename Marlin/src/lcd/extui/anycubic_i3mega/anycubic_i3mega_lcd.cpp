@@ -23,6 +23,8 @@
 
 #if ENABLED(ANYCUBIC_LCD_I3MEGA)
 
+//#define ANYCUBIC_LCD_DEBUG
+
 #include "anycubic_i3mega_lcd.h"
 #include "../ui_api.h"
 
@@ -45,6 +47,12 @@
   #define SENDLINE_DBG_PGM(x,y)       sendLine_P(PSTR(x))
   #define SENDLINE_DBG_PGM_VAL(x,y,z) sendLine_P(PSTR(x))
 #endif
+
+// Append ".gcode" to filename, if requested. Used for some DGUS-clone displays with built-in filter.
+// Filenames are limited to 26 characters, so the actual name for the FILENAME can be 20 characters at most.
+// If a longer string is desired without "extension, use the ALTNAME macro to provide a (longer) alternative.
+#define SPECIAL_MENU_FILENAME(A) A TERN_(ANYCUBIC_LCD_GCODE_EXT, ".gcode")
+#define SPECIAL_MENU_ALTNAME(A, B) TERN(ANYCUBIC_LCD_GCODE_EXT, A ".gcode", B)
 
 AnycubicTFTClass AnycubicTFT;
 
@@ -86,7 +94,7 @@ void AnycubicTFTClass::OnSetup() {
   delay_ms(10);
 
   // Init the state of the key pins running on the TFT
-  #if BOTH(SDSUPPORT, HAS_SD_DETECT)
+  #if BOTH(HAS_MEDIA, HAS_SD_DETECT)
     SET_INPUT_PULLUP(SD_DETECT_PIN);
   #endif
   #if ENABLED(FILAMENT_RUNOUT_SENSOR)
@@ -168,7 +176,7 @@ void AnycubicTFTClass::OnUserConfirmRequired(const char * const msg) {
     SERIAL_ECHOLNPGM("TFT Serial Debug: OnUserConfirmRequired triggered... ", msg);
   #endif
 
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     /**
      * Need to handle the process of following states
      * "Nozzle Parked"
@@ -372,7 +380,7 @@ void AnycubicTFTClass::HandleSpecialMenu() {
 }
 
 void AnycubicTFTClass::RenderCurrentFileList() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     uint16_t selectedNumber = 0;
     SelectedDirectory[0] = 0;
     SelectedFile[0] = 0;
@@ -383,8 +391,8 @@ void AnycubicTFTClass::RenderCurrentFileList() {
     if (!isMediaInserted() && !SpecialMenu) {
       SENDLINE_DBG_PGM("J02", "TFT Serial Debug: No SD Card mounted to render Current File List... J02");
 
-      SENDLINE_PGM("<Special_Menu>");
-      SENDLINE_PGM("<Special_Menu>");
+      SENDLINE_PGM("<SPECI~1.GCO");
+      SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Special Menu>"));
     }
     else {
       if (CodeSeen('S'))
@@ -396,65 +404,65 @@ void AnycubicTFTClass::RenderCurrentFileList() {
         RenderCurrentFolder(selectedNumber);
     }
     SENDLINE_PGM("END"); // Filelist stop
-  #endif // SDSUPPORT
+  #endif // HAS_MEDIA
 }
 
 void AnycubicTFTClass::RenderSpecialMenu(uint16_t selectedNumber) {
   switch (selectedNumber) {
     #if ENABLED(PROBE_MANUALLY)
       case 0: // First Page
-        SENDLINE_PGM("<01ZUp0.1>");
-        SENDLINE_PGM("<Z Up 0.1>");
-        SENDLINE_PGM("<02ZUp0.02>");
-        SENDLINE_PGM("<Z Up 0.02>");
-        SENDLINE_PGM("<03ZDn0.02>");
-        SENDLINE_PGM("<Z Down 0.02>");
-        SENDLINE_PGM("<04ZDn0.1>");
-        SENDLINE_PGM("<Z Down 0.1>");
+        SENDLINE_PGM("<01ZUP~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Z Up 0.1>"));
+        SENDLINE_PGM("<02ZUP~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Z Up 0.02>"));
+        SENDLINE_PGM("<03ZDO~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Z Down 0.02>"));
+        SENDLINE_PGM("<04ZDO~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Z Down 0.1>"));
         break;
 
       case 4: // Second Page
-        SENDLINE_PGM("<05PrehtBed>");
-        SENDLINE_PGM("<Preheat bed>");
-        SENDLINE_PGM("<06SMeshLvl>");
-        SENDLINE_PGM("<Start Mesh Leveling>");
-        SENDLINE_PGM("<07MeshNPnt>");
-        SENDLINE_PGM("<Next Mesh Point>");
-        SENDLINE_PGM("<08HtEndPID>");
-        SENDLINE_PGM("<Auto Tune Hotend PID>");
+        SENDLINE_PGM("<05PRE~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Preheat Bed>"));
+        SENDLINE_PGM("<06MES~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_ALTNAME("<Mesh Leveling>", "<Start Mesh Leveling>"));
+        SENDLINE_PGM("<07NEX~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Next Mesh Point>"));
+        SENDLINE_PGM("<08PID~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<PID Tune Hotend>"));
         break;
 
       case 8: // Third Page
-        SENDLINE_PGM("<09HtBedPID>");
-        SENDLINE_PGM("<Auto Tune Hotbed PID>");
-        SENDLINE_PGM("<10FWDeflts>");
-        SENDLINE_PGM("<Load FW Defaults>");
-        SENDLINE_PGM("<11SvEEPROM>");
-        SENDLINE_PGM("<Save EEPROM>");
-        SENDLINE_PGM("<Exit>");
-        SENDLINE_PGM("<Exit>");
+        SENDLINE_PGM("<09PID~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<PID Tune Hotbed>"));
+        SENDLINE_PGM("<10FWD~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Load FW Defaults>"));
+        SENDLINE_PGM("<11SAV~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Save EEPROM>"));
+        SENDLINE_PGM("<EXIT_~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Exit>"));
         break;
     #else
       case 0: // First Page
-        SENDLINE_PGM("<01PrehtBed>");
-        SENDLINE_PGM("<Preheat bed>");
-        SENDLINE_PGM("<02ABL>");
-        SENDLINE_PGM("<Auto Bed Leveling>");
-        SENDLINE_PGM("<03HtEndPID>");
-        SENDLINE_PGM("<Auto Tune Hotend PID>");
-        SENDLINE_PGM("<04HtBedPID>");
-        SENDLINE_PGM("<Auto Tune Hotbed PID>");
+        SENDLINE_PGM("<01PRE~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Preheat Bed>"));
+        SENDLINE_PGM("<02ABL~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Auto Bed Leveling>"));
+        SENDLINE_PGM("<03PID~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_ALTNAME("<PID Tune Hotend>", "<Auto Tune Hotend PID>"));
+        SENDLINE_PGM("<04PID~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_ALTNAME("<PID Tune Hotbed>", "<Auto Tune Hotbed PID>"));
         break;
 
       case 4: // Second Page
-        SENDLINE_PGM("<05FWDeflts>");
-        SENDLINE_PGM("<Load FW Defaults>");
-        SENDLINE_PGM("<06SvEEPROM>");
-        SENDLINE_PGM("<Save EEPROM>");
-        SENDLINE_PGM("<07SendM108>");
-        SENDLINE_PGM("<Send User Confirmation>");
-        SENDLINE_PGM("<Exit>");
-        SENDLINE_PGM("<Exit>");
+        SENDLINE_PGM("<05FWD~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Load FW Defaults>"));
+        SENDLINE_PGM("<06SAV~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Save EEPROM>"));
+        SENDLINE_PGM("<06SEN~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_ALTNAME("<User Confirmation>", "<Send User Confirmation>"));
+        SENDLINE_PGM("<EXIT_~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Exit>"));
         break;
 
         #endif // PROBE_MANUALLY
@@ -478,8 +486,8 @@ void AnycubicTFTClass::RenderCurrentFolder(uint16_t selectedNumber) {
   for (cnt = selectedNumber; cnt <= max_files; cnt++) {
     if (cnt == 0) { // Special Entry
       if (currentFileList.isAtRootDir()) {
-        SENDLINE_PGM("<specialmnu>");
-        SENDLINE_PGM("<Special Menu>");
+        SENDLINE_PGM("<SPECI~1.GCO");
+        SENDLINE_PGM(SPECIAL_MENU_FILENAME("<Special Menu>"));
       }
       else {
         SENDLINE_PGM("/..");
@@ -508,7 +516,7 @@ void AnycubicTFTClass::RenderCurrentFolder(uint16_t selectedNumber) {
 }
 
 void AnycubicTFTClass::OnPrintTimerStarted() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     if (mediaPrintingState == AMPRINTSTATE_PRINTING)
       SENDLINE_DBG_PGM("J04", "TFT Serial Debug: Starting SD Print... J04"); // J04 Starting Print
 
@@ -516,7 +524,7 @@ void AnycubicTFTClass::OnPrintTimerStarted() {
 }
 
 void AnycubicTFTClass::OnPrintTimerPaused() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     if (isPrintingFromMedia()) {
       mediaPrintingState = AMPRINTSTATE_PAUSED;
       mediaPauseState    = AMPAUSESTATE_PARKING;
@@ -525,7 +533,7 @@ void AnycubicTFTClass::OnPrintTimerPaused() {
 }
 
 void AnycubicTFTClass::OnPrintTimerStopped() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     if (mediaPrintingState == AMPRINTSTATE_PRINTING) {
       mediaPrintingState = AMPRINTSTATE_NOT_PRINTING;
       mediaPauseState    = AMPAUSESTATE_NOT_PAUSED;
@@ -600,7 +608,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
           } break;
 
           case 6: // A6 GET SD CARD PRINTING STATUS
-            #if ENABLED(SDSUPPORT)
+            #if HAS_MEDIA
               if (isPrintingFromMedia()) {
                 SEND_PGM("A6V ");
                 if (isMediaInserted())
@@ -629,28 +637,28 @@ void AnycubicTFTClass::GetCommandFromTFT() {
           break;
 
           case 8: // A8 GET  SD LIST
-            #if ENABLED(SDSUPPORT)
+            #if HAS_MEDIA
               SelectedFile[0] = 0;
               RenderCurrentFileList();
             #endif
             break;
 
           case 9: // A9 pause sd print
-            #if ENABLED(SDSUPPORT)
+            #if HAS_MEDIA
               if (isPrintingFromMedia())
                 PausePrint();
             #endif
             break;
 
           case 10: // A10 resume sd print
-            #if ENABLED(SDSUPPORT)
+            #if HAS_MEDIA
               if (isPrintingFromMediaPaused())
                 ResumePrint();
             #endif
             break;
 
           case 11: // A11 STOP SD PRINT
-            TERN_(SDSUPPORT, StopPrint());
+            TERN_(HAS_MEDIA, StopPrint());
             break;
 
           case 12: // A12 kill
@@ -658,7 +666,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             break;
 
           case 13: // A13 SELECTION FILE
-            #if ENABLED(SDSUPPORT)
+            #if HAS_MEDIA
               if (isMediaInserted()) {
                 starpos = (strchr(TFTstrchr_pointer + 4, '*'));
                 if (TFTstrchr_pointer[4] == '/') {
@@ -687,7 +695,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             break;
 
           case 14: // A14 START PRINTING
-            #if ENABLED(SDSUPPORT)
+            #if HAS_MEDIA
               if (!isPrinting() && strlen(SelectedFile) > 0)
                 StartPrint();
             #endif
@@ -698,7 +706,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             break;
 
           case 16: { // A16 set hotend temp
-            unsigned int tempvalue;
+            uint16_t tempvalue;
             if (CodeSeen('S')) {
               tempvalue = constrain(CodeValue(), 0, 275);
               setTargetTemp_celsius(tempvalue, (extruder_t)E0);
@@ -713,7 +721,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
           break;
 
           case 17: { // A17 set heated bed temp
-            unsigned int tempbed;
+            uint16_t tempbed;
             if (CodeSeen('S')) {
               tempbed = constrain(CodeValue(), 0, 100);
               setTargetTemp_celsius(tempbed, (heater_t)BED);
@@ -771,7 +779,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
           case 22: // A22 move X/Y/Z or extrude
             if (!isPrinting()) {
               float coorvalue;
-              unsigned int movespeed = 0;
+              uint16_t movespeed = 0;
               char commandStr[30];
               char fullCommandStr[38];
 
@@ -860,7 +868,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             break;
 
           case 26: // A26 refresh SD
-            #if ENABLED(SDSUPPORT)
+            #if HAS_MEDIA
               if (isMediaInserted()) {
                 if (strlen(SelectedDirectory) > 0) {
                   FileList currentFileList;
@@ -916,7 +924,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
 }
 
 void AnycubicTFTClass::DoSDCardStateCheck() {
-  #if BOTH(SDSUPPORT, HAS_SD_DETECT)
+  #if BOTH(HAS_MEDIA, HAS_SD_DETECT)
     bool isInserted = isMediaInserted();
     if (isInserted)
       SENDLINE_DBG_PGM("J00", "TFT Serial Debug: SD card state changed... isInserted");
@@ -946,7 +954,7 @@ void AnycubicTFTClass::DoFilamentRunoutCheck() {
 }
 
 void AnycubicTFTClass::StartPrint() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     if (!isPrinting() && strlen(SelectedFile) > 0) {
       #if ENABLED(ANYCUBIC_LCD_DEBUG)
         SERIAL_ECHOPGM("TFT Serial Debug: About to print file ... ");
@@ -962,7 +970,7 @@ void AnycubicTFTClass::StartPrint() {
 }
 
 void AnycubicTFTClass::PausePrint() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     if (isPrintingFromMedia() && mediaPrintingState != AMPRINTSTATE_STOP_REQUESTED && mediaPauseState == AMPAUSESTATE_NOT_PAUSED) {
       mediaPrintingState = AMPRINTSTATE_PAUSE_REQUESTED;
       mediaPauseState    = AMPAUSESTATE_NOT_PAUSED; // need the userconfirm method to update pause state
@@ -976,7 +984,7 @@ void AnycubicTFTClass::PausePrint() {
 }
 
 void AnycubicTFTClass::ResumePrint() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     #if ENABLED(FILAMENT_RUNOUT_SENSOR)
       if (READ(FIL_RUNOUT1_PIN)) {
         #if ENABLED(ANYCUBIC_LCD_DEBUG)
@@ -1012,7 +1020,7 @@ void AnycubicTFTClass::ResumePrint() {
 }
 
 void AnycubicTFTClass::StopPrint() {
-  #if ENABLED(SDSUPPORT)
+  #if HAS_MEDIA
     mediaPrintingState = AMPRINTSTATE_STOP_REQUESTED;
     mediaPauseState    = AMPAUSESTATE_NOT_PAUSED;
     SENDLINE_DBG_PGM("J16", "TFT Serial Debug: SD print stop called... J16");

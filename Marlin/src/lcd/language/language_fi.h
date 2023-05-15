@@ -39,7 +39,7 @@ namespace Language_fi {
   LSTR WELCOME_MSG                        = MACHINE_NAME _UxGT(" valmis.");
   LSTR MSG_MEDIA_INSERTED                 = _UxGT("Kortti asetettu");
   LSTR MSG_MEDIA_REMOVED                  = _UxGT("Kortti poistettu");
-  LSTR MSG_MAIN                           = _UxGT("Palaa");
+  LSTR MSG_MAIN_MENU                      = _UxGT("Palaa");
   LSTR MSG_RUN_AUTO_FILES                 = _UxGT("Automaatti");
   LSTR MSG_DISABLE_STEPPERS               = _UxGT("Vapauta moottorit");
   LSTR MSG_AUTO_HOME                      = _UxGT("Aja referenssiin");
@@ -76,6 +76,7 @@ namespace Language_fi {
   LSTR MSG_MOVE_01MM                      = _UxGT("Liikuta 0.1mm");
   LSTR MSG_MOVE_1MM                       = _UxGT("Liikuta 1mm");
   LSTR MSG_MOVE_10MM                      = _UxGT("Liikuta 10mm");
+  LSTR MSG_MOVE_50MM                      = _UxGT("Liikuta 50mm");
   LSTR MSG_MOVE_100MM                     = _UxGT("Liikuta 100mm");
   LSTR MSG_SPEED                          = _UxGT("Nopeus");
   LSTR MSG_NOZZLE                         = _UxGT("Suutin");
