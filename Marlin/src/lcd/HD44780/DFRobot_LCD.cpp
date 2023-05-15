@@ -274,8 +274,8 @@ void DFRobot_LCD::begin(uint8_t cols, uint8_t lines, uint8_t dotsize)
     _showmode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
     ///< set the entry mode
     command(LCD_ENTRYMODESET | _showmode);
-    
-    
+
+
     ///< backlight init
     setReg(REG_MODE1, 0);
     ///< set LEDs controllable by both PWM and GRPPWM registers
@@ -283,9 +283,6 @@ void DFRobot_LCD::begin(uint8_t cols, uint8_t lines, uint8_t dotsize)
     ///< set MODE2 values
     ///< 0010 0000 -> 0x20  (DMBLNK to 1, ie blinky mode)
     setReg(REG_MODE2, 0x20);
-    
-    setColorWhite();
-
 }
 
 void DFRobot_LCD::send(uint8_t *data, uint8_t len)

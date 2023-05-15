@@ -353,6 +353,10 @@ void MarlinUI::set_custom_characters(const HD44780CharSet screen_charset/*=CHARS
 
 }
 
+#if ENABLED(SHOW_BOOTSCREEN)
+  static void logo_lines(FSTR_P const extra);
+#endif
+
 void MarlinUI::init_lcd() {
 
   #if ENABLED(LCD_I2C_TYPE_PCF8575)
@@ -383,9 +387,14 @@ void MarlinUI::init_lcd() {
     lcd.begin(LCD_WIDTH, LCD_HEIGHT);
   #endif
 
-  set_custom_characters(on_status_screen() ? CHARSET_INFO : CHARSET_MENU);
+  // lcd.clear();
 
-  lcd.clear();
+  #if ENABLED(SHOW_BOOTSCREEN)
+    set_custom_characters(CHARSET_BOOT);
+    logo_lines(FPSTR(NUL_STR));
+  #else
+    set_custom_characters(on_status_screen() ? CHARSET_INFO : CHARSET_MENU);
+  #endif
 }
 
 bool MarlinUI::detected() {
@@ -464,12 +473,14 @@ void MarlinUI::clear_lcd() { lcd.clear(); }
     int16_t indent = (LCD_WIDTH - 8 - utf8_strlen(extra)) / 2;
     lcd_put_lchar(indent, 0, '\x00'); lcd_put_u8str(F( "------" )); lcd_put_u8str(F("\x01"));
     lcd_put_u8str(indent, 1, F("|Marlin|")); lcd_put_u8str(extra);
-    lcd_put_lchar(indent, 2, '\x02'); lcd_put_u8str(F( "------" )); lcd_put_u8str(F("\x03"));
+    #if LCD_HEIGHT > 2
+      lcd_put_lchar(indent, 2, '\x02'); lcd_put_u8str(F( "------" )); lcd_put_u8str(F("\x03"));
+    #endif
   }
 
   void MarlinUI::show_bootscreen() {
-    set_custom_characters(CHARSET_BOOT);
-    lcd.clear();
+    // set_custom_characters(CHARSET_BOOT);
+    // lcd.clear();
 
     #define LCD_EXTRA_SPACE (LCD_WIDTH-8)
 
@@ -499,7 +510,6 @@ void MarlinUI::clear_lcd() { lcd.clear(); }
       // Show the Marlin logo and short build version
       // After a delay show the website URL
       //
-      logo_lines(FPSTR(NUL_STR));
       CENTER_OR_SCROLL(SHORT_BUILD_VERSION, 1500);
       CENTER_OR_SCROLL(MARLIN_WEBSITE_URL, 1500);
       #ifdef STRING_SPLASH_LINE3
