@@ -107,6 +107,8 @@
 //
 #if (HAS_WIRED_LCD && IS_ULTIPANEL) || TOUCH_UI_ULTIPANEL
 
+  #define BTN_EN1                             39
+  #define BTN_EN2                             35
   #define BTN_ENC                             12
 
 #endif

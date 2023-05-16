@@ -393,7 +393,7 @@
  * Specify whether the power supply is active HIGH or active LOW.
  */
 #define PSU_CONTROL
-#define PSU_NAME "Power Supply"
+#define PSU_NAME "ATX PSU"
 #define PS_ON_PIN 23
 
 #if ENABLED(PSU_CONTROL)

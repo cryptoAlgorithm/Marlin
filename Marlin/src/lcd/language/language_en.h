@@ -156,8 +156,8 @@ namespace Language_en {
   LSTR MSG_SPINDLE_EVAC_TOGGLE            = _UxGT("Toggle Vacuum");
   LSTR MSG_SPINDLE_FORWARD                = _UxGT("Spindle Forward");
   LSTR MSG_SPINDLE_REVERSE                = _UxGT("Spindle Reverse");
-  LSTR MSG_SWITCH_PS_ON                   = _UxGT("Switch Power On");
-  LSTR MSG_SWITCH_PS_OFF                  = _UxGT("Switch Power Off");
+  LSTR MSG_SWITCH_PS_ON                   = _UxGT("Switch PSU On");
+  LSTR MSG_SWITCH_PS_OFF                  = _UxGT("Switch PSU Off");
   LSTR MSG_EXTRUDE                        = _UxGT("Extrude");
   LSTR MSG_RETRACT                        = _UxGT("Retract");
   LSTR MSG_MOVE_AXIS                      = _UxGT("Move Axis");
