@@ -236,6 +236,15 @@ void MarlinUI::set_custom_characters(const HD44780CharSet screen_charset/*=CHARS
       B00100,
       B00000,
       B00000
+    #elif LCD_INFO_SCREEN_STYLE == 2
+      B00100,
+      B01110,
+      B11111,
+      B00100,
+      B00100,
+      B00100,
+      B00000,
+      B11111
     #else
       B11100,
       B10000,
@@ -1158,7 +1167,14 @@ void MarlinUI::draw_status_screen() {
 
     // Z position
     lcd_put_lchar(' ');
-    _draw_axis_value(Z_AXIS, i16tostr3rj(LOGICAL_Z_POSITION(current_position.z)), blink);
+
+    #if HAS_FAN0
+      lcd_put_lchar(LCD_STR_FEEDRATE[0]);
+      lcd_put_u8str(ui8tostr3rj(thermalManager.fan_speed[0]));
+    #else
+      _draw_axis_value(Z_AXIS, i16tostr3rj(LOGICAL_Z_POSITION(current_position.z)), blink);
+    #endif
+    // lcd_put_u8str(F("%"));
 
   #endif // LCD_INFO_SCREEN_STYLE 2
 
