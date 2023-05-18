@@ -2103,7 +2103,10 @@ void prepare_line_to_destination() {
     #else
       #define _CAN_HOME(A) (axis == _AXIS(A) && (EITHER(A##_SPI_SENSORLESS, HAS_##A##_ENDSTOP) || TERN0(HOMING_Z_WITH_PROBE, _AXIS(A) == Z_AXIS)))
       #define _ANDCANT(N) && !_CAN_HOME(N)
-      if (true MAIN_AXIS_MAP(_ANDCANT)) return;
+      if (true MAIN_AXIS_MAP(_ANDCANT)) {
+        set_axis_is_at_home(axis); // If we can't home this axis, assume it has been homed
+        return;
+      }
     #endif
 
     if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPGM(">>> homeaxis(", AS_CHAR(AXIS_CHAR(axis)), ")");
