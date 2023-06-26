@@ -66,7 +66,7 @@
 // @section machine
 
 // Choose the name from boards.h that matches your setup
-#define MOTHERBOARD BOARD_ESPRESSIF_ESP32
+#define MOTHERBOARD BOARD_CHESS_PRINTER
 
 #ifndef MOTHERBOARD
   #define MOTHERBOARD BOARD_RAMPS_14_EFB
@@ -394,7 +394,7 @@
  */
 #define PSU_CONTROL
 #define PSU_NAME "ATX PSU"
-#define PS_ON_PIN 23
+#define PS_ON_PIN 32
 
 #if ENABLED(PSU_CONTROL)
   //#define MKS_PWC                 // Using the MKS PWC add-on
@@ -1224,7 +1224,7 @@
  * Override with M203
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 500, 500, 25 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1752,8 +1752,8 @@
 // @section geometry
 
 // The size of the printable area
-#define X_BED_SIZE 375
-#define Y_BED_SIZE 378
+#define X_BED_SIZE 373
+#define Y_BED_SIZE 375
 
 // Travel limits (linear=mm, rotational=°) after homing, corresponding to endstop positions.
 #define X_MIN_POS 0
